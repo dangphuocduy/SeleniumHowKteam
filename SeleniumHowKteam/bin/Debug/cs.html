@@ -1,0 +1,869 @@
+<html><head>
+<meta http-equiv="X-UA-Compatible" content="IE=8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<title>Hệ thống tra cứu hóa đơn</title>
+
+
+
+
+
+
+<script type="text/javascript" src="/struts/js/base/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="/struts/js/base/jquery.ui.core.min.js?s2j=3.7.1"></script>
+<script type="text/javascript" src="/struts/js/plugins/jquery.subscribe.min.js?s2j=3.7.1"></script>
+
+<script type="text/javascript" src="/struts/js/struts2/jquery.struts2.min.js?s2j=3.7.1"></script>
+
+<script type="text/javascript">
+    $(function () {
+        jQuery.struts2_jquery.version = "3.7.1";
+        jQuery.scriptPath = "/struts/";
+        jQuery.struts2_jquery.local = "vi";
+        jQuery.struts2_jquery.gridLocal = "vi";
+        jQuery.struts2_jquery.timeLocal = "vi";
+        jQuery.struts2_jquery.defaults.indicator = "indicator";
+        jQuery.struts2_jquery.defaults.loadingText = "Đang tải...";
+        jQuery.ajaxSettings.traditional = true;
+
+        jQuery.ajaxSetup({
+            cache: false
+        });
+
+        jQuery.struts2_jquery.require("js/struts2/jquery.ui.struts2.min.js?s2j=3.7.1");
+
+    });
+</script>
+
+        <link id="jquery_theme_link" rel="stylesheet" href="struts/themes/sunny/jquery-ui.css" type="text/css">
+
+<link href="/css/main.css" rel="stylesheet" type="text/css">
+<link href="/css/content.css" rel="stylesheet" type="text/css">
+<link href="/css/ui.jqgrid.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/breadcrumb/Styles/Base.css" type="text/css">
+<link rel="stylesheet" href="/breadcrumb/Styles/BreadCrumb.css" type="text/css">
+<style>
+html,body{margin:0;padding:0;height:100%;font-family:Arial,sans-serif;font-size:8pt;}
+input,select,textarea,label,table,div{font-size:9pt;}
+legend{font-weight:bold;}
+.focusText{color:#CCC;}
+.headerFieldset{color:#0074e8;font-weight:bold;}
+.ui-autocomplete-input{width:200px;}
+.lov-button{width:28px;height:16px;}
+.submit-button {height:20px;width:60px;line-height: 10px;padding-bottom:2px;font-size:12px;text-align:center;}
+.ui-button .ui-button-text {display:block;font-size:9pt;}
+#menu .ui-button .ui-button-text {display:block;height:45px;width:123px;font-size:12px;}
+.ui-button{font-weight:bold;padding:0px;margin:0px;}
+.ui-menu {list-style:none;padding:2px;margin:0px;display:block;outline:none;}
+.ui-menu .ui-menu {margin-top:-3px;position:absolute;}
+.ui-menu .ui-menu-item {margin:0;padding:0;zoom:1;width:100%;}
+.ui-menu .ui-menu-item a {text-decoration:none;display:block;padding:2px .4em;line-height:25px;zoom:1;font-weight:normal;color:black}
+.ui-menu .ui-menu-item a.ui-state-focus,.ui-menu .ui-menu-item a.ui-state-active {font-weight:normal;margin:-1px;}
+.ui-menu li.ui-state-disabled {font-weight:normal;padding:.0em .4em; margin:.4em 0 .2em; line-height:1.5;}
+.ui-menu-icons {position:relative;}
+.ui-menu-icons .ui-menu-item a {position:relative; padding-left:2em;}
+.ui-menu .ui-icon {position:absolute;top:.2em;left:.2em;}
+.ui-menu .ui-menu-icon {position:static; float:right;}
+.ui-menubar{list-style:none;margin:0;padding-left:0;}
+.ui-menubar-item{float:left;}
+.ui-menubar .ui-button {float:left;font-size:8pt;font-weight:bold; border-top-width: 0 !important;border-bottom-width:0 !important;margin:0;outline:none;}
+.ui-menubar .ui-menubar-link {border-right: 1px dashed transparent; border-left: 1px dashed transparent;}
+.ui-menubar .ui-menu{width:300px;position:absolute;z-index:9999;}
+div.fullscreen{display:block;position:absolute;top:0;left:0;width:100%;min-height:500px;height:auto !important;height:500px;}
+div.fullscreen_body {display:block;position:relative;top:0;left:0;width:100%;min-height:500px;height:auto !important;height:500px;}
+</style>
+<script type="text/javascript" src="/js/jquery.ui.core.js"></script>
+<script type="text/javascript" src="/js/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="/js/jquery.ui.mouse.js"></script>
+<script type="text/javascript" src="/js/jquery.ui.draggable.js"></script>
+<script type="text/javascript" src="/js/jquery.ui.position.js"></script>
+<script type="text/javascript" src="/js/jquery.ui.tooltip.js"></script>
+<script type="text/javascript" src="/js/jquery.ui.resizable.js"></script>
+<script type="text/javascript" src="/js/jquery.ui.button.js"></script>
+<script type="text/javascript" src="/js/jquery.ui.menu.js"></script>
+<script type="text/javascript" src="/js/jquery.ui.menubar.js"></script>
+<script type="text/javascript" src="/js/jquery.ui.popup.js"></script>
+<script type="text/javascript" src="/js/jquery.ui.dialog.js"></script>
+<script type="text/javascript" src="/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="/js/jquery.hotkeys.js"></script>
+<script type="text/javascript" src="/js/jquery.jstree.js"></script>
+<script type="text/javascript" src="/js/jquery.jqGrid.min.js"></script>
+<script type="text/javascript" src="/js/jquery.tablednd.js"></script>
+<script type="text/javascript" src="/js/jquery.number_format.js"></script>
+<script type="text/javascript" src="/js/grid.locale-en.js"></script>
+<script type="text/javascript" src="/breadcrumb/js/jquery.easing.1.3.js"></script>
+<script type="text/javascript" src="/breadcrumb/js/jquery.jBreadCrumb.1.1.js"></script>
+<script type="text/javascript" src="/js/jquery.maskedinput.min.js"></script>
+<script type="text/javascript" src="/js/webhd.js"></script>
+<script type="text/javascript" src="/js/json2.js"></script>
+<script type="text/javascript">
+$(function() {	
+	$("#menu").menubar({autoExpand:true,menuIcon:true,buttons:true});
+	set_theme();
+	$("#selected_theme").val(theme);
+	jQuery("#breadCrumb1").jBreadCrumb();
+	});	
+	$.subscribe('reloadDialog', function(event, data) {		
+		var url = $(event.originalEvent.data).attr('href');
+		var params = $(event.originalEvent.data).attr('hrefparameter');
+		var tempAction = url.substr(url.lastIndexOf("/")+1);		
+		tempAction = tempAction.substr(0, tempAction.indexOf(".html"));	
+		$("#remoteformdialog").load("/"+tempAction+".html?"+params+"", function() {$.publish('loadSuccessConfirm');});
+	});	
+	function okButton(){
+		$('#myDialog').dialog('close');
+	};
+	function closeButton(){
+		$('#remoteformdialog').dialog('close');
+	};
+	function showMyDialog(title,message){
+		var options_myDialog = {};
+		options_myDialog.title = title;
+		options_myDialog.buttons = { 
+				'OK':function() { okButton(); }
+			};
+		options_myDialog.autoOpen = false;
+		options_myDialog.modal = false;
+		options_myDialog.draggable = true;
+		options_myDialog.jqueryaction = "dialog";
+		options_myDialog.id = "myDialog";
+		options_myDialog.href = "#";
+		jQuery.struts2_jquery_ui.bind(jQuery('#myDialog'),options_myDialog);
+		$("#myDialog").html(message);
+		$('#myDialog').dialog('open');
+	}
+</script>
+
+<style type="text/css">.jstree ul, .jstree li { display:block; margin:0 0 0 0; padding:0 0 0 0; list-style-type:none; } .jstree li { display:block; min-height:18px; line-height:18px; white-space:nowrap; margin-left:18px; } .jstree-rtl li { margin-left:0; margin-right:18px; } .jstree > ul > li { margin-left:0px; } .jstree-rtl > ul > li { margin-right:0px; } .jstree ins { display:inline-block; text-decoration:none; width:18px; height:18px; margin:0 0 0 0; padding:0; } .jstree a { display:inline-block; line-height:16px; height:16px; color:black; white-space:nowrap; text-decoration:none; padding:1px 2px; margin:0; } .jstree a:focus { outline: none; } .jstree a > ins { height:16px; width:16px; } .jstree a > .jstree-icon { margin-right:3px; } .jstree-rtl a > .jstree-icon { margin-left:3px; margin-right:0; } li.jstree-open > ul { display:block; } li.jstree-closed > ul { display:none; } </style><style type="text/css">#vakata-dragged { display:block; margin:0 0 0 0; padding:4px 4px 4px 24px; position:absolute; top:-2000px; line-height:16px; z-index:10000; } </style><style type="text/css">#vakata-dragged ins { display:block; text-decoration:none; width:16px; height:16px; margin:0 0 0 0; padding:0; position:absolute; top:4px; left:4px; } #vakata-dragged .jstree-ok { background:green; } #vakata-dragged .jstree-invalid { background:red; } #jstree-marker { padding:0; margin:0; line-height:12px; font-size:1px; overflow:hidden; height:12px; width:8px; position:absolute; top:-30px; z-index:10000; background-repeat:no-repeat; display:none; background-color:silver; } </style><style type="text/css">#vakata-contextmenu { display:none; position:absolute; margin:0; padding:0; min-width:180px; background:#ebebeb; border:1px solid silver; z-index:10000; *width:180px; } #vakata-contextmenu ul { min-width:180px; *width:180px; } #vakata-contextmenu ul, #vakata-contextmenu li { margin:0; padding:0; list-style-type:none; display:block; } #vakata-contextmenu li { line-height:20px; min-height:20px; position:relative; padding:0px; } #vakata-contextmenu li a { padding:1px 6px; line-height:17px; display:block; text-decoration:none; margin:1px 1px 0 1px; } #vakata-contextmenu li ins { float:left; width:16px; height:16px; text-decoration:none; margin-right:2px; } #vakata-contextmenu li a:hover, #vakata-contextmenu li.vakata-hover > a { background:gray; color:white; } #vakata-contextmenu li ul { display:none; position:absolute; top:-2px; left:100%; background:#ebebeb; border:1px solid gray; } #vakata-contextmenu .right { right:100%; left:auto; } #vakata-contextmenu .bottom { bottom:-1px; top:auto; } #vakata-contextmenu li.vakata-separator { min-height:0; height:1px; line-height:1px; font-size:1px; overflow:hidden; margin:0 2px; background:silver; /* border-top:1px solid #fefefe; */ padding:0; } </style><style type="text/css">.jstree .ui-icon { overflow:visible; } .jstree a { padding:0 2px; }</style><link rel="stylesheet" type="text/css" href="/struts/themes/ui.jqgrid.css"></head>
+<body topmargin="0" leftmargin="0" bottommargin="0">
+
+
+<div class="fullscreen" style="position:relative;width:985px;margin:0 auto;padding: 0">
+	<table width="985px" align="center">
+		<tbody><tr>
+			<td class="header">
+				<!-- top  --> 
+
+
+ 
+<div id="header">
+	<div id="myDialog"></div>
+	<div id="div_banner" style="height: 80px; background-image: url(&quot;image/banner.png&quot;);" class="ui-widget-content"></div>
+	<div id="div_menu">
+		<ul id="menu" class="ui-menubar ui-widget-header ui-helper-clearfix" role="menubar">
+			<li class="ui-menubar-item" role="presentation"><a href="#" class="ui-button ui-widget ui-menubar-link ui-state-default ui-button-text-icon-secondary" role="menuitem" aria-haspopup="true"><span class="ui-button-text">Thông tin hóa đơn, biên lai</span><span class="ui-button-icon-secondary ui-icon ui-icon-triangle-1-s"></span></a>
+				<ul class="ui-menu ui-widget ui-widget-content ui-corner-all" id="ui-menu-0" role="menu" tabindex="0" style="display: none;" aria-hidden="true" aria-expanded="false">
+					<li class="ui-menu-item" role="presentation"><a href="#" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-0-0" aria-haspopup="true"><span class="ui-menu-icon ui-icon ui-icon-carat-1-e"></span>Hóa đơn</a>
+						<ul class="ui-menu ui-widget ui-widget-content ui-corner-all" role="menu" style="display: none;" aria-hidden="true" aria-expanded="false" aria-labelledby="ui-menu-0-0">
+							
+							
+							<li class="ui-menu-item" role="presentation"><a href="/tc1hd.html" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-0-2">Tra cứu một hóa đơn</a></li>
+							<li class="ui-menu-item" role="presentation"><a href="/tcnhd.html" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-0-3">Tra cứu nhiều hóa đơn</a></li>
+						</ul>
+					</li>
+					<li class="ui-menu-item" role="presentation"><a href="#" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-0-1" aria-haspopup="true"><span class="ui-menu-icon ui-icon ui-icon-carat-1-e"></span>Biên lai</a>
+						<ul class="ui-menu ui-widget ui-widget-content ui-corner-all" role="menu" style="display: none;" aria-hidden="true" aria-expanded="false" aria-labelledby="ui-menu-0-1">
+							
+							
+							<li class="ui-menu-item" role="presentation"><a href="/tc1blai.html" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-0-4">Tra cứu một biên lai</a></li>
+							<li class="ui-menu-item" role="presentation"><a href="/tcnblai.html" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-0-5">Tra cứu nhiều biên lai</a></li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li class="ui-menubar-item" role="presentation"><a href="#" tabindex="-1" class="ui-button ui-widget ui-menubar-link ui-state-default ui-button-text-icon-secondary" role="menuitem" aria-haspopup="true"><span class="ui-button-text">Thông tin<br>thông báo phát hành</span><span class="ui-button-icon-secondary ui-icon ui-icon-triangle-1-s"></span></a>
+				<ul class="ui-menu ui-widget ui-widget-content ui-corner-all" id="ui-menu-1" role="menu" tabindex="0" style="display: none;" aria-hidden="true" aria-expanded="false">
+					<li class="ui-menu-item" role="presentation"><a href="#" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-1-0" aria-haspopup="true"><span class="ui-menu-icon ui-icon ui-icon-carat-1-e"></span>Hóa đơn</a>
+						<ul class="ui-menu ui-widget ui-widget-content ui-corner-all" role="menu" style="display: none;" aria-hidden="true" aria-expanded="false" aria-labelledby="ui-menu-1-0">
+							
+							
+							<li class="ui-menu-item" role="presentation"><a href="/tbphcqt.html" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-1-2">Cơ quan thuế</a></li>
+							<li class="ui-menu-item" role="presentation"><a href="/tbphtc.html" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-1-3">Tổ chức, cá nhân</a></li>
+						</ul>
+					</li>
+					<li class="ui-menu-item" role="presentation"><a href="#" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-1-1" aria-haspopup="true"><span class="ui-menu-icon ui-icon ui-icon-carat-1-e"></span>Biên lai</a>
+						<ul class="ui-menu ui-widget ui-widget-content ui-corner-all" role="menu" style="display: none;" aria-hidden="true" aria-expanded="false" aria-labelledby="ui-menu-1-1">
+							
+							
+							
+							<li class="ui-menu-item" role="presentation"><a href="/tbphblaicqt.html" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-1-4">Cơ quan thuế</a></li>
+							<li class="ui-menu-item" role="presentation"><a href="/tbphblaitc.html" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-1-5">Tổ chức, cá nhân</a></li>
+							<li class="ui-menu-item" role="presentation"><a href="/tbphbdchinhlaitc.html" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-1-6">Tra cứu điều chỉnh thông tin TBPH</a></li>
+						</ul>
+					</li>
+					
+				</ul>
+			</li>
+			 <li class="ui-menubar-item" role="presentation"><a href="#" tabindex="-1" class="ui-button ui-widget ui-menubar-link ui-state-default ui-button-text-icon-secondary" role="menuitem" aria-haspopup="true"><span class="ui-button-text">Thông báo<br>ấn chỉ hết giá trị<br>sử dụng</span><span class="ui-button-icon-secondary ui-icon ui-icon-triangle-1-s"></span></a>
+				<ul class="ui-menu ui-widget ui-widget-content ui-corner-all" id="ui-menu-2" role="menu" tabindex="0" style="display: none;" aria-hidden="true" aria-expanded="false">
+					<li class="ui-menu-item" role="presentation"><a href="#" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-2-0" aria-haspopup="true"><span class="ui-menu-icon ui-icon ui-icon-carat-1-e"></span>Hóa đơn</a>
+						<ul class="ui-menu ui-widget ui-widget-content ui-corner-all" role="menu" style="display: none;" aria-hidden="true" aria-expanded="false" aria-labelledby="ui-menu-2-0">
+							
+							
+							<li class="ui-menu-item" role="presentation"><a href="/hgtsdcqt.html" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-2-2">Cơ quan thuế</a></li>
+							<li class="ui-menu-item" role="presentation"><a href="/hgtsdtc.html" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-2-3">Tổ chức, cá nhân</a></li>
+						</ul>
+					</li>
+					<li class="ui-menu-item" role="presentation"><a href="#" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-2-1" aria-haspopup="true"><span class="ui-menu-icon ui-icon ui-icon-carat-1-e"></span>Biên lai</a>
+						<ul class="ui-menu ui-widget ui-widget-content ui-corner-all" role="menu" style="display: none;" aria-hidden="true" aria-expanded="false" aria-labelledby="ui-menu-2-1">
+							
+							
+							<li class="ui-menu-item" role="presentation"><a href="/tbkqhblcqt.html" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-2-4">Cơ quan thuế</a></li>
+							<li class="ui-menu-item" role="presentation"><a href="/tbkqhbltc.html" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-2-5">Tổ chức, cá nhân</a></li>
+						</ul>
+					</li>
+				</ul>
+			</li>  
+			<!--  <li><a href="#">Thông báo<br/>hóa đơn hết giá trị<br/>sử dụng</a>
+				<ul>
+					
+					
+					<li><a href="/hgtsdcqt.html">Cơ quan thuế</a></li>
+					<li><a href="/hgtsdtc.html">Tổ chức, cá nhân</a></li>
+				</ul>
+			</li>  -->
+			<li class="ui-menubar-item" role="presentation"><a href="#" tabindex="-1" class="ui-button ui-widget ui-menubar-link ui-state-default ui-button-text-icon-secondary" role="menuitem" aria-haspopup="true"><span class="ui-button-text">Danh mục<br>nhà in/cung ứng phần mềm tự in</span><span class="ui-button-icon-secondary ui-icon ui-icon-triangle-1-s"></span></a>
+				<ul class="ui-menu ui-widget ui-widget-content ui-corner-all" id="ui-menu-3" role="menu" tabindex="0" style="display: none;" aria-hidden="true" aria-expanded="false">
+					
+					<li class="ui-menu-item" role="presentation"><a href="/dmnhain.html" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-3-0">Tra cứu nhà in/cung ứng phần mềm tự in</a></li>
+				</ul>
+			</li>
+			<li class="ui-menubar-item" role="presentation"><a href="#" tabindex="-1" class="ui-button ui-widget ui-menubar-link ui-state-default ui-button-text-icon-secondary" role="menuitem" aria-haspopup="true"><span class="ui-button-text">Danh sách <br> doanh nghiệp rủi ro, vi phạm</span><span class="ui-button-icon-secondary ui-icon ui-icon-triangle-1-s"></span></a>
+				<ul class="ui-menu ui-widget ui-widget-content ui-corner-all" id="ui-menu-4" role="menu" tabindex="0" style="display: none;" aria-hidden="true" aria-expanded="false">
+					
+					<li class="ui-menu-item" role="presentation"><a href="/dnrrvp.html" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-4-0">Tra cứu doanh nghiệp rủi ro, vi phạm</a></li>
+				</ul>
+			</li>
+			<!-- <li><a href="#">Thông báo<br/>biên lai hết giá trị<br/>sử dụng</a>
+				<ul>
+					
+					
+					<li><a href="/tbkqhblcqt.html">Cơ quan thuế</a></li>
+					<li><a href="/tbkqhbltc.html">Tổ chức, cá nhân</a></li>
+				</ul>
+			</li>  -->
+			<!--  <li><a href="#">Thông báo<br/>biên lai hết giá trị<br/>sử dụng</a>
+				<ul>
+					
+					<li><a href="/tbkqhbl.html">Tra cứu thông báo kết quả hủy biên lai</a></li>
+				</ul>
+			</li> -->
+			
+			<li class="ui-menubar-item" role="presentation"><a href="#" tabindex="-1" class="ui-button ui-widget ui-menubar-link ui-state-default ui-button-text-icon-secondary" role="menuitem" aria-haspopup="true"><span class="ui-button-text">Hóa đơn<br>có mã xác thực</span><span class="ui-button-icon-secondary ui-icon ui-icon-triangle-1-s"></span></a>
+				<ul class="ui-menu ui-widget ui-widget-content ui-corner-all" id="ui-menu-5" role="menu" tabindex="0" style="display: none;" aria-hidden="true" aria-expanded="false">
+					
+					
+					<li class="ui-menu-item" role="presentation"><a href="/dkphtc.html" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-5-0">Tra cứu đăng ký phát hành</a></li>
+					<li style="display:none;" class="ui-menu-item" role="presentation"><a href="/xmhd.html" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-5-1">Xác minh hóa đơn</a></li>
+					<li class="ui-menu-item" role="presentation"><a href="https://laphoadon.gdt.gov.vn/xmhd/" target="_blank" class="ui-corner-all" tabindex="-1" role="menuitem" id="ui-menu-5-2">Xác minh hóa đơn</a></li>
+				</ul>
+			</li>
+			
+			
+			
+		</ul>
+	</div>
+	
+	<!--
+	<div id="container">
+        <div class="">
+        	  
+		</div>
+	</div>
+	-->
+</div>
+			</td>
+		</tr>
+	</tbody></table>
+<!-- 
+	<hr size="5" color="#669900">
+ -->
+	<table width="985px" align="center">
+		<tbody><tr>
+			<td class="body" valign="top">
+				<!-- body  --> 
+
+
+
+<script type="text/javascript">
+var isLoad=false;
+$(document).ready(function() {
+	jQuery(function($){
+	   $("#ngayTu").mask("99/99/9999");
+	   $("#ngayDen").mask("99/99/9999");
+	});
+	$.subscribe('reloadResult', function(event, data) {
+		findIdent();
+		//search();
+	});
+	
+	$.subscribe('successTopic', function(event, data) {
+		if(isLoad) {
+			retrieveToken();
+		}
+		var total = $("#grid_ketqua").jqGrid('getGridParam', 'records');
+		if( isLoad && total<=0){
+			showMyDialog("Thông báo", "Không tìm thấy kết quả tra cứu!");
+		}
+	});
+});
+
+function retrieveToken() {
+	var url;
+	url = 'getnewtoken.html';
+	$.ajax({type: 'GET', url:url, data : {
+		'token':$('[name="token"]').val(),
+		'struts.token.name':$('[name="struts.token.name"]').val()}
+	}).done(function(data){
+		//alert(data.newToken);
+		if(data.newToken!=null) {
+			$('[name="token"]').val(data.newToken);
+			$("#grid_ketqua").jqGrid('setGridParam', { postData: {'token':data.newToken, 'struts.token.name':$('[name="struts.token.name"]').val() } });
+			//alert('done');
+		} else {
+			alert("Không lấy được token mới.");
+		}
+	});
+}
+
+function findIdent() {
+	var tin = $("#tin").val();
+	var ngayTu = $("#ngayTu").val();		
+	var ngayDen = $("#ngayDen").val();
+	var captchaCode =  $("#captchaCodeVerify").val();
+	var env = "INTER";
+	if('INTER' == env && $.trim(captchaCode)=='') {
+		 showMyDialog("Thông báo", "Phải nhập mã xác thực!");		
+		$("#captchaCodeVerify").focus();
+		return;
+	}
+	if($.trim(tin)=='') {
+		showMyDialog("Thông báo", "Phải nhập mã số thuế!");
+		$("#tin").focus();
+		return;
+	} 
+	if($.trim(ngayTu)=='') {
+		showMyDialog("Thông báo", "Phải nhập ngày thông báo từ ngày!");
+		$("#ngayTu").focus();
+		return;
+	} 
+	if($.trim(ngayDen)=='') {
+		showMyDialog("Thông báo", "Phải nhập ngày thông báo đến ngày!");
+		$("#ngayDen").focus();
+		return;
+	} 
+	var url;		
+	url = 'gettin.html';	
+	$.ajax({type: 'POST', url:"gettin.html?tin="+tin+"&captchaCode=" + captchaCode}).done(function(data){			
+		if(data.tinModel!=null) {
+			//tuantc5: 10/10/2018 kiem tra neu den ngay >= 01/10/2018 thi lay ten cqt moi
+			// nguoc lai thi lay ten cqt cu
+			if (data.tinModel.pay_taxo_name.indexOf('F') >= 0)
+			{
+				var vlue = data.tinModel.pay_taxo_name.split('F');
+				
+				if (parseInt(ngayDen.substring(6)) > parseInt(vlue[2]))
+				{
+					$("#reCqtQl").html(vlue[0]);
+				} else if (parseInt(ngayDen.substring(6)) == parseInt(vlue[2]))
+				{
+					if (parseInt(ngayDen.substring(3,5)) > parseInt(vlue[3]))
+					{
+						$("#reCqtQl").html(vlue[0]);
+					} else if (parseInt(ngayDen.substring(3,5)) == parseInt(vlue[3])){
+						if (parseInt(ngayDen.substring(0,2)) >= parseInt(vlue[4]))
+						{
+							$("#reCqtQl").html(vlue[0]);
+						} else {
+							$("#reCqtQl").html(vlue[1]);
+						}
+					} else {
+						$("#reCqtQl").html(vlue[1]);
+					}
+				}else {
+					$("#reCqtQl").html(vlue[1]);
+				}
+				// if (ngayDen.substring())
+			} else 
+			{
+				$("#reCqtQl").html(data.tinModel.pay_taxo_name);
+			}
+			//end
+			$("#reTin").html(data.tinModel.tin + ' / ' +data.tinModel.norm_name);
+			$("#reTinAddr").html(data.tinModel.tran_addr);
+			$("#reTtHoatdong").html(data.tinModel.statusName);
+			// $("#reCqtQl").html(data.tinModel.pay_taxo_name);
+			search();
+		} else {
+			//showMyDialog("Thông báo", "Mã số thuế không tồn tại!");
+			$("#reTin").html("");
+			$("#reTinAddr").html("");
+			$("#reTtHoatdong").html("");
+			$("#reCqtQl").html("");
+		}
+	});
+}
+	
+function validCode(){	
+	url = 'validcode.html';
+	var captchaCode =  $("#captchaCodeVerify").val();
+	$.ajax({type: 'POST', url:url, data : {'captchaCode' : captchaCode}	}).done(function(data){
+		if(data.strMess!= null){
+			$("#lbLoiCode").html(data.strMess);			
+		}else{
+			$("#lbLoiCode").html("");						
+		}
+	});
+}
+
+
+function search() {
+	var tin = $.trim($("#tin").val());
+	var ngayTu = $.trim($("#ngayTu").val());		
+	var ngayDen = $.trim($("#ngayDen").val());
+	var captchaCode =  $("#captchaCodeVerify").val();
+	var url;	
+	url = 'searchtbph.html';
+	isLoad=true;
+	$("#grid_ketqua").jqGrid('setGridParam', {
+		url : url,
+		page : "1",
+		postData : {
+			'kind' : 'tc',
+			'tin' : tin,
+			'ngayTu' : ngayTu,
+			'ngayDen' : ngayDen,
+			'captchaCode':captchaCode,
+			'token':$('[name="token"]').val(),
+			'struts.token.name':$('[name="struts.token.name"]').val()
+		}
+	}).trigger("reloadGrid");
+}
+
+function formatLink(cellvalue, options, rowObject) {
+	return "<a href='#'  class='textlink' style='color:blue;' onclick='javascript:openDialog(\""+rowObject.id+"\",\""+rowObject.lan_thaydoi+"\",\""+rowObject.dtnt_tin+"\",\""+rowObject.loaitb_phanh+"\")'>" + cellvalue + "</a>";
+}
+function openDialog(id, ltd, dtnt_tin, loaitb_phanh) {
+	var tempAction = "viewtbph.html?id="+id+"&ltd="+ltd+"&dtnt_tin="+dtnt_tin+"&loaitb_phanh="+loaitb_phanh;
+	var options_myDialog = {};
+	options_myDialog.title = "Thông tin chi thiết Thông báo phát hành";
+	options_myDialog.buttons = { 
+			'Đóng':function() { closeButton(); }
+	};
+	options_myDialog.autoOpen = false;
+	options_myDialog.modal = true;
+	options_myDialog.draggable = true;
+	options_myDialog.jqueryaction = "dialog";
+	options_myDialog.id = "remoteformdialog";
+	options_myDialog.href = tempAction;
+	jQuery.struts2_jquery_ui.bind(jQuery('#remoteformdialog'),options_myDialog);
+	$('#remoteformdialog').dialog('open');
+}
+function reloadPage(){	
+	location.reload();
+}
+</script>
+<div align="center">
+<table cellspacing="0" cellpadding="0">
+<tbody><tr>
+<td>
+<div id="breadCrumb1" class="breadCrumb module">
+ <div style="overflow:hidden; position:relative;  width: 969px;"><div><ul style="width: 5000px;">
+     <li class="first">
+         <a href="main.html">TRANG CHỦ</a>
+     </li>
+     <li class="last">
+         <a><b>TRA CỨU THÔNG BÁO PHÁT HÀNH HÓA ĐƠN CỦA TỔ CHỨC, CÁ NHÂN BÁN HÀNG HÓA, DỊCH VỤ</b></a>
+     </li>
+ </ul></div></div>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<form id="tbphcqtform" name="tbphcqtform" action="/searchtbphcqt.html" method="post">
+<div class="titleForm ui-jqgrid-titlebar ui-widget-header ui-helper-clearfix" style="height:20px;">
+	<div class="titleFormLabel" style="padding:3px 5px; text-align: left;">Tham số tra cứu</div>
+</div>
+<div class="ui-widget-content" align="center">
+	<table style="width: 80%; padding: 1px;">
+		<tbody><tr>
+			<td class="param_column" width="20%">
+				Mã số thuế <span class="text_required"> (*)</span><label></label>
+			</td>
+			<td class="param_column">
+				<input type="text" name="tin" value="" id="tin" class="tinField" style="width:200px;" onblur="">
+			</td>
+		</tr>
+		<tr>
+			<td class="param_column">
+				Ngày phát hành từ <span class="text_required"> (*)</span><label></label>
+			</td>
+			<td class="param_column">
+			 	<input type="text" name="ngayTu" value="" id="ngayTu" class="fieldDate hasDatepicker"><script type="text/javascript">
+jQuery(document).ready(function () {
+	jQuery.struts2_jquery_ui.initDatepicker(false);
+
+});
+jQuery(document).ready(function () {
+	var options_ngayTu = {};
+	options_ngayTu.buttonImageOnly = true;
+	options_ngayTu.showOn = "false";
+	options_ngayTu.buttonImage = "/struts/js/calendar.gif";
+	options_ngayTu.displayformat = "dd/mm/yy";
+	options_ngayTu.jqueryaction = "datepicker";
+	options_ngayTu.id = "ngayTu";
+	options_ngayTu.name = "ngayTu";
+
+jQuery.struts2_jquery_ui.bind(jQuery('#ngayTu'),options_ngayTu);
+
+ });
+</script>
+
+				đến <span class="text_required"> (*)</span><label></label>
+				<input type="text" name="ngayDen" value="" id="ngayDen" class="fieldDate hasDatepicker"><script type="text/javascript">
+jQuery(document).ready(function () {
+	jQuery.struts2_jquery_ui.initDatepicker(false);
+
+});
+jQuery(document).ready(function () {
+	var options_ngayDen = {};
+	options_ngayDen.buttonImageOnly = true;
+	options_ngayDen.showOn = "false";
+	options_ngayDen.buttonImage = "/struts/js/calendar.gif";
+	options_ngayDen.displayformat = "dd/mm/yy";
+	options_ngayDen.jqueryaction = "datepicker";
+	options_ngayDen.id = "ngayDen";
+	options_ngayDen.name = "ngayDen";
+
+jQuery.struts2_jquery_ui.bind(jQuery('#ngayDen'),options_ngayDen);
+
+ });
+</script>
+
+			</td>
+		</tr>
+		
+		
+
+ 
+
+
+
+<tr>
+	<td class="param_column">Mã xác thực <span class="text_required"></span> <label></label></td>
+	<td class="param_column">
+	 	<table>
+	 		<tbody><tr>
+	 			<td>
+	 				
+					<div align="center">
+						
+						<img src="Captcha.jpg" border="0">
+					</div>
+	 			</td>
+	 			<td align="left">
+					<a id="anchor_2052320780" href="javascript:void(0)" class="lov-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" title="Refresh Code" onclick="reloadPage()" role="button" aria-disabled="false"><span class="ui-button-icon-primary ui-icon ui-icon ui-icon-refresh"></span><span class="ui-button-text"></span></a>
+<script type="text/javascript">
+jQuery(document).ready(function () { 
+	var options_anchor_2052320780 = {};
+	options_anchor_2052320780.jqueryaction = "anchor";
+	options_anchor_2052320780.id = "anchor_2052320780";
+	options_anchor_2052320780.href = "#";
+	options_anchor_2052320780.button = true;
+	options_anchor_2052320780.bicon = "ui-icon ui-icon-refresh";
+
+jQuery.struts2_jquery.bind(jQuery('#anchor_2052320780'),options_anchor_2052320780);
+
+ });  
+</script>							
+				</td>
+	 		</tr>
+	 	</tbody></table>								
+	</td>			
+</tr>
+<tr>
+	<td class="param_column">Nhập mã xác thực <span class="text_required"> (*)</span> <label></label></td>
+	<td class="param_column">
+		<input type="text" name="captchaCodeVerify" size="20" maxlength="10" value="" id="captchaCodeVerify" class="tinField" onchange="validCode();">	
+		<label id="lbLoiCode"></label>									
+	</td>
+</tr>
+
+
+		
+		<tr align="center">
+			<td class="param_column">&nbsp;</td>
+			<td class="param_column">
+				<a id="searchBtn" href="javascript:void(0)" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary ui-state-focus ui-state-hover" role="button" aria-disabled="false" style=""><span class="ui-button-icon-primary ui-icon ui-icon-search"></span><span class="ui-button-text">Tìm kiếm</span></a>
+<script type="text/javascript">
+jQuery(document).ready(function () { 
+	var options_searchBtn = {};
+	options_searchBtn.jqueryaction = "anchor";
+	options_searchBtn.id = "searchBtn";
+	options_searchBtn.href = "#";
+	options_searchBtn.onclick = "reloadResult";
+	options_searchBtn.button = true;
+	options_searchBtn.bicon = "ui-icon-search";
+	options_searchBtn.validateFunction = customeValidation;
+	options_searchBtn.validate = true;
+
+jQuery.struts2_jquery.bind(jQuery('#searchBtn'),options_searchBtn);
+
+ });  
+</script>
+			</td>
+		</tr>
+	</tbody></table>
+</div>
+<div class="titleForm ui-jqgrid-titlebar ui-widget-header ui-helper-clearfix" style="height:20px;">
+	<div class="titleFormLabel" style="padding:3px 5px; text-align: left;">Kết quả tra cứu</div>
+</div>
+<div class="ui-widget-content" align="center">
+	<table style="width: 80%; padding: 1px;">
+		<tbody><tr>
+			<td class="param_column" width="20%">
+				Mã / Tên đơn vị phát hành<label></label>
+			</td>
+			<td class="param_column">
+				<div id="reTin" name="reTin">0400466187 / CÔNG TY TRÁCH NHIỆM HỮU HẠN HAI CỬ</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="param_column" width="20%">
+				Trạng thái hoạt động<label></label>
+			</td>
+			<td class="param_column">
+				<div id="reTtHoatdong" name="reTtHoatdong">NNT đang hoạt động (đã được cấp GCN ĐKT)</div>
+			</td>
+		</tr>
+		
+		<tr>
+			<td class="param_column">
+				Địa chỉ trụ sở chính<label></label>
+			</td>
+			<td class="param_column"><div id="reTinAddr" name="reTinAddr">61-63 Yên Bái, Phường Phước Ninh</div></td>
+		</tr>
+		<tr>
+			<td class="param_column">
+				Cơ quan thuế quản lý<label></label>
+			</td>
+			<td class="param_column"><div id="reCqtQl" name="reCqtQl">Chi cục Thuế Quận Hải Châu</div></td>
+		</tr>
+	</tbody></table>
+</div>
+
+<div class="ui-jqgrid ui-widget ui-widget-content ui-corner-all" id="gbox_grid_ketqua" dir="ltr" style="width: 976px;"><div class="ui-widget-overlay jqgrid-overlay" id="lui_grid_ketqua"></div><div class="loading ui-state-default ui-state-active" id="load_grid_ketqua" style="display: none;">Đang tải...</div><div class="ui-jqgrid-view" id="gview_grid_ketqua" style="width: 976px;"><div class="ui-jqgrid-titlebar ui-jqgrid-caption ui-widget-header ui-corner-top ui-helper-clearfix"><a role="link" class="ui-jqgrid-titlebar-close ui-corner-all HeaderButton" style="right: 0px;"><span class="ui-icon ui-icon-circle-triangle-n"></span></a><span class="ui-jqgrid-title">Danh sách thông báo phát hành</span></div><div style="width: 976px;" class="ui-state-default ui-jqgrid-hdiv"><div class="ui-jqgrid-hbox"><table class="ui-jqgrid-htable" style="width:975px" role="grid" aria-labelledby="gbox_grid_ketqua" cellspacing="0" cellpadding="0" border="0"><thead><tr class="ui-jqgrid-labels" role="rowheader"><th id="grid_ketqua_rn" role="columnheader" class="ui-state-default ui-th-column ui-th-ltr" style="width: 25px;"><div id="jqgh_grid_ketqua_rn"><span class="s-ico" style="display:none"><span sort="asc" class="ui-grid-ico-sort ui-icon-asc ui-state-disabled ui-icon ui-icon-triangle-1-n ui-sort-ltr"></span><span sort="desc" class="ui-grid-ico-sort ui-icon-desc ui-state-disabled ui-icon ui-icon-triangle-1-s ui-sort-ltr"></span></span></div></th><th id="grid_ketqua_id" role="columnheader" class="ui-state-default ui-th-column ui-th-ltr" style="width: 150px; display: none;"><span class="ui-jqgrid-resize ui-jqgrid-resize-ltr" style="cursor: col-resize;">&nbsp;</span><div id="jqgh_grid_ketqua_id" class="ui-jqgrid-sortable">id<span class="s-ico" style="display:none"><span sort="asc" class="ui-grid-ico-sort ui-icon-asc ui-state-disabled ui-icon ui-icon-triangle-1-n ui-sort-ltr"></span><span sort="desc" class="ui-grid-ico-sort ui-icon-desc ui-state-disabled ui-icon ui-icon-triangle-1-s ui-sort-ltr"></span></span></div></th><th id="grid_ketqua_dtnt_tin" role="columnheader" class="ui-state-default ui-th-column ui-th-ltr" style="width: 150px; display: none;"><span class="ui-jqgrid-resize ui-jqgrid-resize-ltr" style="cursor: col-resize;">&nbsp;</span><div id="jqgh_grid_ketqua_dtnt_tin" class="ui-jqgrid-sortable">dtnt_tin<span class="s-ico" style="display:none"><span sort="asc" class="ui-grid-ico-sort ui-icon-asc ui-state-disabled ui-icon ui-icon-triangle-1-n ui-sort-ltr"></span><span sort="desc" class="ui-grid-ico-sort ui-icon-desc ui-state-disabled ui-icon ui-icon-triangle-1-s ui-sort-ltr"></span></span></div></th><th id="grid_ketqua_loaitb_phanh" role="columnheader" class="ui-state-default ui-th-column ui-th-ltr" style="width: 150px; display: none;"><span class="ui-jqgrid-resize ui-jqgrid-resize-ltr" style="cursor: col-resize;">&nbsp;</span><div id="jqgh_grid_ketqua_loaitb_phanh" class="ui-jqgrid-sortable">loaitb_phanh<span class="s-ico" style="display:none"><span sort="asc" class="ui-grid-ico-sort ui-icon-asc ui-state-disabled ui-icon ui-icon-triangle-1-n ui-sort-ltr"></span><span sort="desc" class="ui-grid-ico-sort ui-icon-desc ui-state-disabled ui-icon ui-icon-triangle-1-s ui-sort-ltr"></span></span></div></th><th id="grid_ketqua_lan_thaydoi" role="columnheader" class="ui-state-default ui-th-column ui-th-ltr" style="width: 150px; display: none;"><span class="ui-jqgrid-resize ui-jqgrid-resize-ltr" style="cursor: col-resize;">&nbsp;</span><div id="jqgh_grid_ketqua_lan_thaydoi" class="ui-jqgrid-sortable">Lần thay đổi<span class="s-ico" style="display:none"><span sort="asc" class="ui-grid-ico-sort ui-icon-asc ui-state-disabled ui-icon ui-icon-triangle-1-n ui-sort-ltr"></span><span sort="desc" class="ui-grid-ico-sort ui-icon-desc ui-state-disabled ui-icon ui-icon-triangle-1-s ui-sort-ltr"></span></span></div></th><th id="grid_ketqua_ngay_phathanh" role="columnheader" class="ui-state-default ui-th-column ui-th-ltr" style="width: 154px;"><span class="ui-jqgrid-resize ui-jqgrid-resize-ltr" style="cursor: col-resize;">&nbsp;</span><div id="jqgh_grid_ketqua_ngay_phathanh" class="ui-jqgrid-sortable">Ngày phát hành<span class="s-ico" style="display:none"><span sort="asc" class="ui-grid-ico-sort ui-icon-asc ui-state-disabled ui-icon ui-icon-triangle-1-n ui-sort-ltr"></span><span sort="desc" class="ui-grid-ico-sort ui-icon-desc ui-state-disabled ui-icon ui-icon-triangle-1-s ui-sort-ltr"></span></span></div></th><th id="grid_ketqua_so_thong_bao" role="columnheader" class="ui-state-default ui-th-column ui-th-ltr" style="width: 193px;"><span class="ui-jqgrid-resize ui-jqgrid-resize-ltr" style="cursor: col-resize;">&nbsp;</span><div id="jqgh_grid_ketqua_so_thong_bao" class="ui-jqgrid-sortable">Số thông báo<span class="s-ico" style="display:none"><span sort="asc" class="ui-grid-ico-sort ui-icon-asc ui-state-disabled ui-icon ui-icon-triangle-1-n ui-sort-ltr"></span><span sort="desc" class="ui-grid-ico-sort ui-icon-desc ui-state-disabled ui-icon ui-icon-triangle-1-s ui-sort-ltr"></span></span></div></th><th id="grid_ketqua_cqt_ten" role="columnheader" class="ui-state-default ui-th-column ui-th-ltr" style="width: 289px;"><span class="ui-jqgrid-resize ui-jqgrid-resize-ltr" style="cursor: col-resize;">&nbsp;</span><div id="jqgh_grid_ketqua_cqt_ten" class="ui-jqgrid-sortable">Cơ quan thuế nhận thông báo phát hành<span class="s-ico" style="display:none"><span sort="asc" class="ui-grid-ico-sort ui-icon-asc ui-state-disabled ui-icon ui-icon-triangle-1-n ui-sort-ltr"></span><span sort="desc" class="ui-grid-ico-sort ui-icon-desc ui-state-disabled ui-icon ui-icon-triangle-1-s ui-sort-ltr"></span></span></div></th><th id="grid_ketqua_ghi_chu" role="columnheader" class="ui-state-default ui-th-column ui-th-ltr" style="width: 289px;"><span class="ui-jqgrid-resize ui-jqgrid-resize-ltr" style="cursor: col-resize;">&nbsp;</span><div id="jqgh_grid_ketqua_ghi_chu" class="ui-jqgrid-sortable">Ghi chú<span class="s-ico" style="display:none"><span sort="asc" class="ui-grid-ico-sort ui-icon-asc ui-state-disabled ui-icon ui-icon-triangle-1-n ui-sort-ltr"></span><span sort="desc" class="ui-grid-ico-sort ui-icon-desc ui-state-disabled ui-icon ui-icon-triangle-1-s ui-sort-ltr"></span></span></div></th></tr></thead></table></div></div><div class="ui-jqgrid-bdiv" style="height: auto; width: 976px;"><div style="position:relative;"><div></div><table id="grid_ketqua" class="ui-jqgrid-btable" tabindex="0" role="grid" aria-multiselectable="false" aria-labelledby="gbox_grid_ketqua" style="width: 975px;" cellspacing="0" cellpadding="0" border="0"><tbody><tr class="jqgfirstrow" role="row" style="height:auto"><td role="gridcell" style="height:0px;width:25px;"></td><td role="gridcell" style="height:0px;width:150px;display:none;"></td><td role="gridcell" style="height:0px;width:150px;display:none;"></td><td role="gridcell" style="height:0px;width:150px;display:none;"></td><td role="gridcell" style="height:0px;width:150px;display:none;"></td><td role="gridcell" style="height:0px;width:154px;"></td><td role="gridcell" style="height:0px;width:193px;"></td><td role="gridcell" style="height:0px;width:289px;"></td><td role="gridcell" style="height:0px;width:289px;"></td></tr><tr role="row" id="501010000002062835" tabindex="-1" class="ui-widget-content jqgrow ui-row-ltr"><td role="gridcell" class="ui-state-default jqgrid-rownum" style="text-align:center;width: 25px;" title="1" aria-describedby="grid_ketqua_rn">1</td><td role="gridcell" style="display:none;" title="501010000002062835" aria-describedby="grid_ketqua_id">501010000002062835</td><td role="gridcell" style="display:none;" title="0400466187" aria-describedby="grid_ketqua_dtnt_tin">0400466187</td><td role="gridcell" style="display:none;" title="01" aria-describedby="grid_ketqua_loaitb_phanh">01</td><td role="gridcell" style="display:none;" aria-describedby="grid_ketqua_lan_thaydoi">0</td><td role="gridcell" style="text-align:center;" title="28/06/2018" aria-describedby="grid_ketqua_ngay_phathanh"><a href="#" class="textlink" style="color:blue;" onclick="javascript:openDialog(&quot;501010000002062835&quot;,&quot;0&quot;,&quot;0400466187&quot;,&quot;01&quot;)">28/06/2018</a></td><td role="gridcell" style="" title="18062062835E" aria-describedby="grid_ketqua_so_thong_bao">18062062835E</td><td role="gridcell" style="" title="Chi cục Thuế Quận Hải Châu" aria-describedby="grid_ketqua_cqt_ten">Chi cục Thuế Quận Hải Châu</td><td role="gridcell" style="" title="" aria-describedby="grid_ketqua_ghi_chu">&nbsp;</td></tr></tbody></table></div></div></div><div class="ui-jqgrid-resize-mark" id="rs_mgrid_ketqua">&nbsp;</div><div id="grid_ketqua_pager" style="width: 976px;" class="ui-state-default ui-jqgrid-pager ui-corner-bottom" dir="ltr"><div id="pg_grid_ketqua_pager" class="ui-pager-control" role="group"><table class="ui-pg-table" style="width:100%;table-layout:fixed;height:100%;" role="row" cellspacing="0" cellpadding="0" border="0"><tbody><tr><td id="grid_ketqua_pager_left" align="left"></td><td id="grid_ketqua_pager_center" style="white-space: pre; width: 321px;" align="center"><table style="table-layout:auto;" class="ui-pg-table" cellspacing="0" cellpadding="0" border="0"><tbody><tr><td id="first_grid_ketqua_pager" class="ui-pg-button ui-corner-all ui-state-disabled"><span class="ui-icon ui-icon-seek-first"></span></td><td id="prev_grid_ketqua_pager" class="ui-pg-button ui-corner-all ui-state-disabled"><span class="ui-icon ui-icon-seek-prev"></span></td><td class="ui-pg-button ui-state-disabled" style="width:4px;"><span class="ui-separator"></span></td><td dir="ltr">Trang <input class="ui-pg-input" type="text" size="2" maxlength="7" value="0" role="textbox"> trong tổng số <span id="sp_1_grid_ketqua_pager">1</span></td><td class="ui-pg-button ui-state-disabled" style="width:4px;"><span class="ui-separator"></span></td><td id="next_grid_ketqua_pager" class="ui-pg-button ui-corner-all ui-state-disabled"><span class="ui-icon ui-icon-seek-next"></span></td><td id="last_grid_ketqua_pager" class="ui-pg-button ui-corner-all ui-state-disabled"><span class="ui-icon ui-icon-seek-end"></span></td><td dir="ltr"><select class="ui-pg-selbox" role="listbox"><option role="option" value="10" selected="selected">10</option><option role="option" value="15">15</option><option role="option" value="20">20</option></select></td></tr></tbody></table></td><td id="grid_ketqua_pager_right" align="right"></td></tr></tbody></table></div></div></div>
+
+
+<script type="text/javascript">
+jQuery(document).ready(function () { 
+	jQuery.struts2_jquery.require("js/struts2/jquery.grid.struts2"+jQuery.struts2_jquery.minSuffix+".js");
+	var options_grid_ketqua = {};
+	options_grid_ketqua.frozen = false;
+	var options_grid_ketqua_colmodels = new Array();
+	var options_grid_ketqua_colnames = new Array();
+	
+	
+options_grid_ketqua_colmodels_id = {};
+options_grid_ketqua_colmodels_id.name = "id";
+options_grid_ketqua_colmodels_id.jsonmap = "id";
+options_grid_ketqua_colmodels_id.index = "id";
+options_grid_ketqua_colmodels_id.editable = false;
+options_grid_ketqua_colmodels_id.sortable = true;
+options_grid_ketqua_colmodels_id.resizable = true;
+options_grid_ketqua_colmodels_id.search = true;
+options_grid_ketqua_colmodels_id.hidden = true;
+
+options_grid_ketqua_colnames.push("id");
+options_grid_ketqua_colmodels.push(options_grid_ketqua_colmodels_id);
+
+	
+options_grid_ketqua_colmodels_dtnt_tin = {};
+options_grid_ketqua_colmodels_dtnt_tin.name = "dtnt_tin";
+options_grid_ketqua_colmodels_dtnt_tin.jsonmap = "dtnt_tin";
+options_grid_ketqua_colmodels_dtnt_tin.index = "dtnt_tin";
+options_grid_ketqua_colmodels_dtnt_tin.editable = false;
+options_grid_ketqua_colmodels_dtnt_tin.sortable = true;
+options_grid_ketqua_colmodels_dtnt_tin.resizable = true;
+options_grid_ketqua_colmodels_dtnt_tin.search = true;
+options_grid_ketqua_colmodels_dtnt_tin.hidden = true;
+
+options_grid_ketqua_colnames.push("dtnt_tin");
+options_grid_ketqua_colmodels.push(options_grid_ketqua_colmodels_dtnt_tin);
+
+	
+options_grid_ketqua_colmodels_loaitb_phanh = {};
+options_grid_ketqua_colmodels_loaitb_phanh.name = "loaitb_phanh";
+options_grid_ketqua_colmodels_loaitb_phanh.jsonmap = "loaitb_phanh";
+options_grid_ketqua_colmodels_loaitb_phanh.index = "loaitb_phanh";
+options_grid_ketqua_colmodels_loaitb_phanh.editable = false;
+options_grid_ketqua_colmodels_loaitb_phanh.sortable = true;
+options_grid_ketqua_colmodels_loaitb_phanh.resizable = true;
+options_grid_ketqua_colmodels_loaitb_phanh.search = true;
+options_grid_ketqua_colmodels_loaitb_phanh.hidden = true;
+
+options_grid_ketqua_colnames.push("loaitb_phanh");
+options_grid_ketqua_colmodels.push(options_grid_ketqua_colmodels_loaitb_phanh);
+
+	
+options_grid_ketqua_colmodels_lan_thaydoi = {};
+options_grid_ketqua_colmodels_lan_thaydoi.name = "lan_thaydoi";
+options_grid_ketqua_colmodels_lan_thaydoi.jsonmap = "lan_thaydoi";
+options_grid_ketqua_colmodels_lan_thaydoi.index = "lan_thaydoi";
+options_grid_ketqua_colmodels_lan_thaydoi.editable = false;
+options_grid_ketqua_colmodels_lan_thaydoi.sortable = true;
+options_grid_ketqua_colmodels_lan_thaydoi.resizable = true;
+options_grid_ketqua_colmodels_lan_thaydoi.search = true;
+options_grid_ketqua_colmodels_lan_thaydoi.hidden = true;
+
+options_grid_ketqua_colnames.push("Lần thay đổi");
+options_grid_ketqua_colmodels.push(options_grid_ketqua_colmodels_lan_thaydoi);
+
+	
+options_grid_ketqua_colmodels_ngay_phathanh = {};
+options_grid_ketqua_colmodels_ngay_phathanh.name = "ngay_phathanh";
+options_grid_ketqua_colmodels_ngay_phathanh.jsonmap = "ngay_phathanh";
+options_grid_ketqua_colmodels_ngay_phathanh.index = "ngay_phathanh";
+options_grid_ketqua_colmodels_ngay_phathanh.width = 80;
+		options_grid_ketqua_colmodels_ngay_phathanh.formatter = formatLink;
+options_grid_ketqua_colmodels_ngay_phathanh.align = "center";
+options_grid_ketqua_colmodels_ngay_phathanh.editable = false;
+options_grid_ketqua_colmodels_ngay_phathanh.sortable = true;
+options_grid_ketqua_colmodels_ngay_phathanh.resizable = true;
+options_grid_ketqua_colmodels_ngay_phathanh.search = true;
+
+options_grid_ketqua_colnames.push("Ngày phát hành");
+options_grid_ketqua_colmodels.push(options_grid_ketqua_colmodels_ngay_phathanh);
+
+	
+options_grid_ketqua_colmodels_so_thong_bao = {};
+options_grid_ketqua_colmodels_so_thong_bao.name = "so_thong_bao";
+options_grid_ketqua_colmodels_so_thong_bao.jsonmap = "so_thong_bao";
+options_grid_ketqua_colmodels_so_thong_bao.index = "so_thong_bao";
+options_grid_ketqua_colmodels_so_thong_bao.width = 100;
+options_grid_ketqua_colmodels_so_thong_bao.editable = false;
+options_grid_ketqua_colmodels_so_thong_bao.sortable = true;
+options_grid_ketqua_colmodels_so_thong_bao.resizable = true;
+options_grid_ketqua_colmodels_so_thong_bao.search = true;
+
+options_grid_ketqua_colnames.push("Số thông báo");
+options_grid_ketqua_colmodels.push(options_grid_ketqua_colmodels_so_thong_bao);
+
+	
+options_grid_ketqua_colmodels_cqt_ten = {};
+options_grid_ketqua_colmodels_cqt_ten.name = "cqt_ten";
+options_grid_ketqua_colmodels_cqt_ten.jsonmap = "cqt_ten";
+options_grid_ketqua_colmodels_cqt_ten.index = "cqt_ten";
+options_grid_ketqua_colmodels_cqt_ten.width = 150;
+options_grid_ketqua_colmodels_cqt_ten.editable = false;
+options_grid_ketqua_colmodels_cqt_ten.sortable = true;
+options_grid_ketqua_colmodels_cqt_ten.resizable = true;
+options_grid_ketqua_colmodels_cqt_ten.search = true;
+
+options_grid_ketqua_colnames.push("Cơ quan thuế nhận thông báo phát hành");
+options_grid_ketqua_colmodels.push(options_grid_ketqua_colmodels_cqt_ten);
+
+	
+options_grid_ketqua_colmodels_ghi_chu = {};
+options_grid_ketqua_colmodels_ghi_chu.name = "ghi_chu";
+options_grid_ketqua_colmodels_ghi_chu.jsonmap = "ghi_chu";
+options_grid_ketqua_colmodels_ghi_chu.index = "ghi_chu";
+options_grid_ketqua_colmodels_ghi_chu.editable = false;
+options_grid_ketqua_colmodels_ghi_chu.sortable = true;
+options_grid_ketqua_colmodels_ghi_chu.resizable = true;
+options_grid_ketqua_colmodels_ghi_chu.search = true;
+
+options_grid_ketqua_colnames.push("Ghi chú");
+options_grid_ketqua_colmodels.push(options_grid_ketqua_colmodels_ghi_chu);
+
+	options_grid_ketqua.datatype = "json";
+	options_grid_ketqua.url = "/none.html";
+	options_grid_ketqua.formids = "tbphcqtform";
+	options_grid_ketqua.width = 976;
+	options_grid_ketqua.height = 'auto';
+	options_grid_ketqua.pager = "grid_ketqua_pager";
+	options_grid_ketqua.pgbuttons = true;
+	options_grid_ketqua.pginput = true;
+	options_grid_ketqua.rowNum = 10;
+	options_grid_ketqua.rowList = [10,15,20];
+	options_grid_ketqua.caption = "Danh sách thông báo phát hành";
+	options_grid_ketqua.autoencode = true;
+	options_grid_ketqua.rownumbers = true;
+
+
+	options_grid_ketqua.colNames = options_grid_ketqua_colnames;
+	options_grid_ketqua.colModel = options_grid_ketqua_colmodels;
+	options_grid_ketqua.jsonReader = {};
+	options_grid_ketqua.jsonReader.root = "list";
+	options_grid_ketqua.jsonReader.page = "page";
+	options_grid_ketqua.jsonReader.total = "total";
+	options_grid_ketqua.jsonReader.records = "records";
+	options_grid_ketqua.jsonReader.repeatitems = false;
+
+	options_grid_ketqua.jqueryaction = "grid";
+	options_grid_ketqua.id = "grid_ketqua";
+	options_grid_ketqua.oncom = "successTopic";
+
+	jQuery.struts2_jquery_grid.bind(jQuery('#grid_ketqua'),options_grid_ketqua);
+ });
+</script>
+
+<input type="hidden" name="struts.token.name" value="token">
+<input type="hidden" name="token" value="5HKG5MRHLZ6WQQEZIGCE5SKTXF7FCVQD">
+</form>
+
+
+
+</td></tr></tbody></table>
+</div>
+			</td>
+		</tr>
+	</tbody></table>
+	<!--
+	<hr size="5" color="#669900">
+	 -->
+	<div class="footer" style="width: 985px">
+		<!-- bottom  -->
+		
+
+<div id="footer&quot;" align="center">
+	<div style="position: relative ;bottom:0;width:976px;height:70px;" class="ui-widget-content" align="center">
+	<div style="position:relative;text-align:center;" align="center">
+		<div style="position:absolute;padding:3px;top:0;left:0;"><b>Phiên bản 3.01</b></div>
+		<div style="position:absolute;padding:3px;top:0;left:200px;right:200px;"><b>Tổng cục Thuế</b><br>Địa Chỉ: 123 Lò Đúc - Hai Bà Trưng - Hà Nội<br>E-mail: tct@gdt.gov.vn</div>		
+		<div style="position:absolute;padding:3px;top:0;right:0;"></div>
+	</div>
+</div>
+
+	</div>
+</div>
+
+
+<script type="text/javascript">
+jQuery(document).ready(function () { 
+	var options_remoteformdialog = {};
+	options_remoteformdialog.height = 500;
+	options_remoteformdialog.width = 995;
+	options_remoteformdialog.title = "Dialog with Remote Form";
+	options_remoteformdialog.buttons = { 
+    		'Đóng':function() { closeButton(); }
+    	};
+	options_remoteformdialog.draggable = true;
+	options_remoteformdialog.autoOpen = false;
+	options_remoteformdialog.modal = true;
+	options_remoteformdialog.jqueryaction = "dialog";
+	options_remoteformdialog.id = "remoteformdialog";
+	options_remoteformdialog.href = "/form.html";
+	options_remoteformdialog.listentopics = "reloadDialog";
+
+jQuery.struts2_jquery_ui.bind(jQuery('#remoteformdialog'),options_remoteformdialog);
+
+ });  
+</script>
+
+
+</div><div id="jstree-marker" style="display: none;"></div><div id="vakata-contextmenu"></div><div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"><div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all"><a class="ui-datepicker-prev ui-corner-all" data-handler="prev" data-event="click" title="<Trước"><span class="ui-icon ui-icon-circle-triangle-w">&lt;Trước</span></a><a class="ui-datepicker-next ui-corner-all" data-handler="next" data-event="click" title="Tiếp>"><span class="ui-icon ui-icon-circle-triangle-e">Tiếp&gt;</span></a><div class="ui-datepicker-title"><span class="ui-datepicker-month">Tháng Một</span>&nbsp;<span class="ui-datepicker-year">2020</span></div></div><table class="ui-datepicker-calendar"><thead><tr><th class="ui-datepicker-week-end"><span title="Chủ Nhật">CN</span></th><th><span title="Thứ Hai">T2</span></th><th><span title="Thứ Ba">T3</span></th><th><span title="Thứ Tư">T4</span></th><th><span title="Thứ Năm">T5</span></th><th><span title="Thứ Sáu">T6</span></th><th class="ui-datepicker-week-end"><span title="Thứ Bảy">T7</span></th></tr></thead><tbody><tr><td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-days-cell-over  ui-datepicker-current-day" data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default ui-state-active ui-state-hover" href="#">1</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">2</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">3</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">4</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">5</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">6</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">7</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">8</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">9</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">10</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">11</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">12</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">13</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">14</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">15</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">16</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">17</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">18</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">19</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">20</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">21</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">22</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">23</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">24</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">25</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">26</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">27</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">28</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">29</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">30</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2020"><a class="ui-state-default" href="#">31</a></td><td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td></tr></tbody></table></div><div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-dialog-buttons ui-draggable ui-resizable" style="display: none; position: absolute;" tabindex="-1" role="dialog" aria-describedby="remoteformdialog" aria-labelledby="ui-id-1"><div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span id="ui-id-1" class="ui-dialog-title">Dialog with Remote Form</span><button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close" role="button" aria-disabled="false" title="close"><span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span class="ui-button-text">close</span></button></div><div id="remoteformdialog" class="ui-dialog-content ui-widget-content">
+</div><div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"><div class="ui-dialog-buttonset"><button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">Đóng</span></button></div></div><div class="ui-resizable-handle ui-resizable-n"></div><div class="ui-resizable-handle ui-resizable-e"></div><div class="ui-resizable-handle ui-resizable-s"></div><div class="ui-resizable-handle ui-resizable-w"></div><div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 1001;"></div><div class="ui-resizable-handle ui-resizable-sw" style="z-index: 1002;"></div><div class="ui-resizable-handle ui-resizable-ne" style="z-index: 1003;"></div><div class="ui-resizable-handle ui-resizable-nw" style="z-index: 1004;"></div></div></body></html>
